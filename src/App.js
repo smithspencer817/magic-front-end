@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Card from "./components/Card"
+import "./App.css"
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const CARD_API = "https://api.magicthegathering.io/v1/cards"
+
+export default class App extends Component {
+
+  state = {
+    cards: []
+  }
+
+  componentDidMount() {
+    fetch(CARD_API)
+    .then(res => res.json())
+    .then(cards => this.setState({
+      cards: cards.cards
+    }))
+  }
+
+  render() {
+    return(
+      <div className="card-container">
+        {
+          this.state.cards.map(card => <Card card={card} key={card.id}/>)
+        }
+      </div>
+    )
+  }
 }
 
-export default App;
