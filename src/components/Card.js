@@ -15,11 +15,11 @@ export default class Card extends Component {
                             <img className="card-image" src={card.imageUrl} alt={card.name}></img>
                         </div>
                         <div className="card-top-footer">
-                            <h6 className="card-footer-type">{card.type}</h6>
+                            <p className="card-footer-type">{card.type}</p>
                         </div>
                     </div>
                     <div className="card-bottom">
-                        <div className="card-text">{card.text}</div>
+                        <p className="card-text">{card.text}</p>
                     </div>
                 </div>
             </div>
