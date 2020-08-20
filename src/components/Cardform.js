@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Card from './Card'
 
 export default class Cardform extends Component {
+    
     // state = {
     //     card: {}
     // }
@@ -29,9 +30,9 @@ export default class Cardform extends Component {
                 </div>
                 <form onSubmit={this.props.handleSubmit}>
                     <label htmlFor="name-input">Enter Name: </label>
-                    <input id="name-input" type="text" name="name" placeholder="Enter Card Name" /><br></br>
+                    <input onChange={this.props.previewName} id="name-input" type="text" name="name" placeholder="Enter Card Name" /><br></br>
                     <label htmlFor="mana-input">Enter Mana: </label>
-                    <input id="mana-input" type="text" name="mana_cost" placeholder="Mana Cost" /><br></br>
+                    <input onChange={this.props.previewName} id="mana-input" type="text" name="mana_cost" placeholder="Mana Cost" /><br></br>
                     <label htmlFor="image-input">Enter Image Url: </label>
                     <input id="image-input" type="text" name="img_url" placeholder="Enter Card Image Url" /><br></br>
                     <label htmlFor="type-input">Enter Spell Type: </label>

@@ -11,19 +11,30 @@ export default class App extends Component {
   state = {
     cards: [],
     displayForm: true,
-    newcard: {}
+    newcard: {},
+    pName: "",
+    pMana: "",
+    pImg: "",
+    pType: "",
+    pDesc: "",
   }
-  handlePreview = () => {
-    let card = {
-      name: document.querySelector("#name-input").value,
-      mana_cost: document.querySelector("#mana-input").value,
-      img_url: document.querySelector("#image-input").value,
-      spell_type: document.querySelector("#type-input").value,
-      description: document.querySelector("#description-input").value,
-    }
-    console.log(card)
-    this.setState({newcard: card})
+
+  previewName = (e) => {
+    
   }
+
+
+  // handlePreview = () => {
+  //   let card = {
+  //     name: document.querySelector("#name-input").value,
+  //     mana_cost: document.querySelector("#mana-input").value,
+  //     img_url: document.querySelector("#image-input").value,
+  //     spell_type: document.querySelector("#type-input").value,
+  //     description: document.querySelector("#description-input").value,
+  //   }
+  //   console.log(card)
+  //   this.setState({newcard: card})
+  // }
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -54,7 +65,7 @@ export default class App extends Component {
       <div>
         <h1>Card Collection</h1>
         {
-          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} handlePreview={this.handlePreview} card={this.state.newcard}/> : <Navbar toggleForm={this.toggleForm}/>
+          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} handlePreview={this.handlePreview} previewName={this.previewName} card={this.state.newcard}/> : <Navbar toggleForm={this.toggleForm}/>
         }
         <div className="card-container">
           {
