@@ -12,7 +12,7 @@ export default class Card extends Component {
                             <p className="card-mana-cost">{card.mana_cost}</p>
                         </div>
                         <div className="card-image-container">
-                            <img onClick={this.props.editCard} className="card-image" src={card.img_url} alt={card.name}></img>
+                            <img onClick={() => this.props.handleEdit(card)} className="card-image" src={card.img_url} alt={card.name}></img>
                         </div>
                         <div className="card-top-footer">
                             <p className="card-footer-type">{card.spell_type}</p>

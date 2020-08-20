@@ -3,6 +3,8 @@ import Card from './components/Card'
 import Navbar from './components/Navbar'
 import Cardform from './components/Cardform'
 import "./App.css"
+import { waitForDomChange } from '@testing-library/react';
+import { Form } from 'react-bootstrap';
 
 const CARD_API = "http://localhost:3000/cards"
 
@@ -16,7 +18,7 @@ export default class App extends Component {
     pImg: "",
     pType: "",
     pDesc: "",
-    editCard: {},
+    editCard: null,
   }
 
   previewCard = (e) => {
@@ -53,24 +55,66 @@ export default class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    
-    let card = {
+
+    let newCard = {
       name: e.target.name.value,
       mana_cost: e.target.mana_cost.value,
       img_url: e.target.img_url.value,
       spell_type: e.target.spell_type.value,
       description: e.target.description.value,
     }
+   
+    if (this.state.editCard === null) { 
+
+      fetch(CARD_API, {
+        method: "POST",
+        headers: {
+        accept: "application/json",
+        "content-type": "application/json"
+        },
+        body: JSON.stringify(newCard)
+      })
+      .then(res => res.json())
+      .then(nCard => this.setState({
+        cards: [...this.state.cards, nCard],
+        pName: "",
+        pMana: "",
+        pImg: "",
+        pType: "",
+        pDesc: "",
+      }))
+
+     } else {
+
+      fetch(`${CARD_API}/${this.state.editCard.id}`, {
+        method: "PATCH",
+        headers: {
+        accept: "application/json",
+        "content-type": "application/json"
+        },
+        body: JSON.stringify(newCard)
+      })
+      .then(res => res.json())
+      .then(json => {
+        const updatedArr = this.state.cards.map(c => {
+          if (c.id === this.state.editCard.id){
+            return json
+          }
+          return c
+        })
+        this.setState({
+          cards: updatedArr,
+          editCard: null,
+          pName: "",
+          pMana: "",
+          pImg: "",
+          pType: "",
+          pDesc: "",
+        })
+      })
+
+    }
     
-    fetch(CARD_API, {
-      method: "POST",
-      headers: {
-      accept: "application/json",
-      "content-type": "application/json"
-      },
-      body: JSON.stringify(card)
-    }).then(res => res.json())
-    .then(newCard => this.setState({cards: [...this.state.cards, newCard]}))
   }
 
   toggleForm = () => {
@@ -84,6 +128,17 @@ export default class App extends Component {
     .then(cards => this.setState({cards: cards}))
   }
 
+  editCard = (card) => {
+    this.setState({
+      editCard: card,
+      pName: card.name,
+      pMana: card.mana_cost,
+      pType: card.spell_type,
+      pDesc: card.description,
+      pImg: card.img_url,
+    })
+  }
+
   render() {
     return(
       <div>
@@ -93,7 +148,7 @@ export default class App extends Component {
         }
         <div className="card-container">
           {
-            this.state.cards.map(card => <Card card={card} key={card.id}/>)
+            this.state.cards.map(card => <Card cardInfo={this.state} handleEdit={this.editCard} editCard={this.state.editCard} card={card} key={card.id}/>)
           }
         </div>
       </div>
