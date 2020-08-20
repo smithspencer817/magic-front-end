@@ -9,17 +9,17 @@ export default class Card extends Component {
                     <div className="card-top">
                         <div className="card-top-header">
                             <p className="card-name">{card.name}</p>
-                            <p className="card-mana-cost">{card.manaCost}</p>
+                            <p className="card-mana-cost">{card.mana_cost}</p>
                         </div>
                         <div className="card-image-container">
-                            <img className="card-image" src={card.imageUrl} alt={card.name}></img>
+                            <img className="card-image" src={card.img_url} alt={card.name}></img>
                         </div>
                         <div className="card-top-footer">
-                            <p className="card-footer-type">{card.type}</p>
+                            <p className="card-footer-type">{card.spell_type}</p>
                         </div>
                     </div>
                     <div className="card-bottom">
-                        <p className="card-text">{card.text}</p>
+                        <p className="card-text">{card.description}</p>
                     </div>
                 </div>
             </div>
