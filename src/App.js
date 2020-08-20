@@ -11,7 +11,6 @@ export default class App extends Component {
   state = {
     cards: [],
     displayForm: true,
-    newcard: {},
     pName: "",
     pMana: "",
     pImg: "",
@@ -19,22 +18,37 @@ export default class App extends Component {
     pDesc: "",
   }
 
-  previewName = (e) => {
-    
+  previewCard = (e) => {
+    switch(e.target.name) {
+      case "name":
+        this.setState({
+          pName: e.target.value
+        })
+        break;
+      case "mana_cost":
+        this.setState({
+          pMana: e.target.value
+        })
+        break;
+      case "img_url":
+        this.setState({
+          pImg: e.target.value
+        })
+        break;
+      case "spell_type":
+        this.setState({
+          pType: e.target.value
+        })
+        break;
+      case "description":
+        this.setState({
+          pDesc: e.target.value
+        })
+        break;
+      default:
+        console.log("not recognized")
+      }
   }
-
-
-  // handlePreview = () => {
-  //   let card = {
-  //     name: document.querySelector("#name-input").value,
-  //     mana_cost: document.querySelector("#mana-input").value,
-  //     img_url: document.querySelector("#image-input").value,
-  //     spell_type: document.querySelector("#type-input").value,
-  //     description: document.querySelector("#description-input").value,
-  //   }
-  //   console.log(card)
-  //   this.setState({newcard: card})
-  // }
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -65,7 +79,7 @@ export default class App extends Component {
       <div>
         <h1>Card Collection</h1>
         {
-          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} handlePreview={this.handlePreview} previewName={this.previewName} card={this.state.newcard}/> : <Navbar toggleForm={this.toggleForm}/>
+          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} previewCard={this.previewCard} cardInfo={this.state} /> : <Navbar toggleForm={this.toggleForm}/>
         }
         <div className="card-container">
           {
