@@ -16,6 +16,7 @@ export default class App extends Component {
     pImg: "",
     pType: "",
     pDesc: "",
+    editCard: {},
   }
 
   previewCard = (e) => {
@@ -60,7 +61,16 @@ export default class App extends Component {
       spell_type: e.target.spell_type.value,
       description: e.target.description.value,
     }
-    console.log(card)
+    
+    fetch(CARD_API, {
+      method: "POST",
+      headers: {
+      accept: "application/json",
+      "content-type": "application/json"
+      },
+      body: JSON.stringify(card)
+    }).then(res => res.json())
+    .then(newCard => this.setState({cards: [...this.state.cards, newCard]}))
   }
 
   toggleForm = () => {
