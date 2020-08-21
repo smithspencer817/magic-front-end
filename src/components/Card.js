@@ -20,6 +20,7 @@ export default class Card extends Component {
                     </div>
                     <div className="card-bottom">
                         <p className="card-text">{card.description}</p>
+                        <button onClick={() => this.props.handleDelete(card)}>Delete card</button>
                     </div>
                 </div>
             </div>
