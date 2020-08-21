@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Card from './components/Card'
 import Navbar from './components/Navbar'
 import Cardform from './components/Cardform'
+import CardContainer from './containers/CardContainer'
 import "./App.css"
-import { waitForDomChange } from '@testing-library/react';
-import { Form } from 'react-bootstrap';
+
 
 const CARD_API = "http://localhost:3000/cards"
 
@@ -12,13 +11,14 @@ export default class App extends Component {
 
   state = {
     cards: [],
-    displayForm: true,
+    displayForm: false,
     pName: "",
     pMana: "",
     pImg: "",
     pType: "",
     pDesc: "",
     editCard: null,
+    searchCards: "",
   }
 
   previewCard = (e) => {
@@ -139,18 +139,33 @@ export default class App extends Component {
     })
   }
 
+  handleDelete = (card) => {
+    const newArr = [...this.state.cards]
+    const filtered = newArr.filter(c => c.id !== card.id)
+    this.setState({
+      cards: filtered
+    })
+    fetch(`${CARD_API}/${card.id}`, {
+      method: "DELETE",
+    })
+  }
+
+  filterSearch = (e) => {
+    console.log(e.target.value)
+    this.setState({
+      searchCards: e.target.value
+    })
+  }
+
   render() {
     return(
       <div>
         <h1>Card Collection</h1>
         {
-          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} previewCard={this.previewCard} cardInfo={this.state} /> : <Navbar toggleForm={this.toggleForm}/>
+          this.state.displayForm ? <Cardform toggleForm={this.toggleForm} handleSubmit={this.handleSubmit} previewCard={this.previewCard} cardInfo={this.state} /> : <Navbar search={this.state} filterSearch={this.filterSearch} toggleForm={this.toggleForm}/>
         }
-        <div className="card-container">
-          {
-            this.state.cards.map(card => <Card cardInfo={this.state} handleEdit={this.editCard} editCard={this.state.editCard} card={card} key={card.id}/>)
-          }
-        </div>
+        <CardContainer cardInfo={this.state} searchCards={this.state.searchCards} handleDelete={this.handleDelete} handleEdit={this.editCard} editCard={this.state.editCard} cards={this.state.cards}/>
+        
       </div>
     )
   }
